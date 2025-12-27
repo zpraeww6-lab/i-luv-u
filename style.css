@@ -17,32 +17,26 @@ body {
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-h1 {
-  color: #ff5c8a;
-}
+h1 { color: #ff5c8a; }
 
-button {
+.btn, button {
+  display: inline-block;
   margin: 8px;
   padding: 10px 18px;
-  border: none;
   border-radius: 25px;
   background: #ff5c8a;
   color: white;
-  font-size: 15px;
+  text-decoration: none;
+  border: none;
   cursor: pointer;
 }
 
-button:hover {
+.btn:hover, button:hover {
   background: #ff3d75;
 }
 
-#text {
-  min-height: 90px;
-}
-
-/* กล่องของขวัญ */
 .gift {
-  font-size: 50px;
+  font-size: 60px;
   cursor: pointer;
   animation: shake 1.5s infinite;
 }
@@ -54,18 +48,11 @@ button:hover {
   75% { transform: rotate(-5deg); }
 }
 
-/* ปุ่มหนี */
 .runaway {
   position: relative;
-  height: 80px;
+  height: 70px;
 }
 
 #no {
   position: absolute;
-}
-
-/* กล่องความทรงจำ */
-.memory button {
-  background: #ffb3c6;
-  color: #333;
 }
