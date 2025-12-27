@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ถึงคนพิเศษของเค้า 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="card">
+
+    <h1>สวัสดีคนเก่ง 💕</h1>
+
+    <!-- พิมพ์ข้อความ -->
+    <p id="text"></p>
+    <button onclick="typeMessage()">อ่านข้อความจากเค้า 💌</button>
+
+    <hr>
+
+    <!-- กล่องของขวัญ -->
+    <p>มีของขวัญให้ 🎁</p>
+    <div class="gift" onclick="openGift()">🎁</div>
+
+    <hr>
+
+    <!-- ปุ่มหนีความรัก -->
+    <p>ตอบเค้ามาหน่อยสิ 😳</p>
+    <div class="runaway">
+      <button onclick="love()">รัก 💖</button>
+      <button id="no" onmouseover="run()">ไม่รัก 🙃</button>
+    </div>
+
+    <hr>
+
+    <!-- กล่องความทรงจำ -->
+    <div class="memory">
+      <p>กล่องความทรงจำ 🫶</p>
+      <button onclick="showMemory(0)">เหตุผลที่รัก</button>
+      <button onclick="showMemory(1)">วันที่คิดถึงมาก</button>
+      <button onclick="showMemory(2)">สิ่งที่อยากบอก</button>
+    </div>
+
+  </div>
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
