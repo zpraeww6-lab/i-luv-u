@@ -1,58 +1,158 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #ffd6e8, #fff1f7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Care Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Mali', cursive;
+            background-color: #ffe4e1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-.card {
-  background: white;
-  padding: 25px;
-  border-radius: 20px;
-  max-width: 360px;
-  text-align: center;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-}
+        .phone-container {
+            width: 90%;
+            max-width: 400px;
+            height: 80vh;
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
 
-h1 { color: #ff5c8a; }
+        .mood-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
 
-.btn, button {
-  display: inline-block;
-  margin: 8px;
-  padding: 10px 18px;
-  border-radius: 25px;
-  background: #ff5c8a;
-  color: white;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-}
+        .mood-btn {
+            background: #fff5f7;
+            border: 2px solid #ffb6c1;
+            padding: 20px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Mali';
+        }
 
-.btn:hover, button:hover {
-  background: #ff3d75;
-}
+        .mood-btn:hover { background: #ffb6c1; color: white; transform: translateY(-5px); }
+        .mood-btn div { font-size: 30px; margin-bottom: 5px; }
 
-.gift {
-  font-size: 60px;
-  cursor: pointer;
-  animation: shake 1.5s infinite;
-}
+        /* Modal Style สำหรับข้อความดูแลหัวใจ */
+        .modal-overlay {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
 
-@keyframes shake {
-  0% { transform: rotate(0); }
-  25% { transform: rotate(5deg); }
-  50% { transform: rotate(0); }
-  75% { transform: rotate(-5deg); }
-}
+        .modal-content {
+            background: white;
+            width: 80%;
+            padding: 25px;
+            border-radius: 25px;
+            animation: popIn 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
 
-.runaway {
-  position: relative;
-  height: 70px;
-}
+        @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-#no {
-  position: absolute;
-}
+        .btn-main {
+            background-color: #ff8da1;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-family: 'Mali';
+            text-decoration: none;
+            display: inline-block;
+            margin-top: auto; /* ดันลงไปข้างล่างสุด */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-container">
+        <h2 style="color: #ff6b6b; margin-bottom: 5px;">ศูนย์ดูแลหัวใจ</h2>
+        <p>วันนี้พี่บอยรู้สึกยังไงบ้างคะ?</p>
+
+        <div class="mood-grid">
+            <div class="mood-btn" onclick="showCare('tired')">
+                <div>🥱</div> เหนื่อยจัง
+            </div>
+            <div class="mood-btn" onclick="showCare('hungry')">
+                <div>😔</div> เศร้า
+            </div>
+            <div class="mood-btn" onclick="showCare('sad')">
+                <div>🤗</div> คิดถึงแพรว
+            </div>
+            <div class="mood-btn" onclick="showCare('happy')">
+                <div>☺️</div> มีความสุข
+            </div>
+        </div>
+
+        <a href="final.html" class="btn-main">ไปหน้าสุดท้าย ✨</a>
+
+        <div id="careModal" class="modal-overlay">
+            <div class="modal-content">
+                <div id="care-emoji" style="font-size: 50px;"></div>
+                <h3 id="care-title" style="color: #ff6b6b;"></h3>
+                <p id="care-desc"></p>
+                <button class="btn-main" onclick="closeModal()" style="margin-top: 10px;">ขอบคุณนะ ❤️</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const careMessages = {
+            tired: {
+                emoji: "💝",
+                title: "กอดๆ นะคะ",
+                desc: "วันนี้เก่งมากแล้วนะคะ ไม่เป็นไรเลยถ้าจะรู้สึกเหนื่อย แพรวจะอยู่ตรงนี้เสมอนะคะ"
+            },
+            hungry: {
+                emoji: "🥺",
+                title: "แพรวอยู่ตรงนี้นะคะ",
+                desc: "เห็นพี่เศร้าแพรวก็เศร้าไปด้วยน้า ไหนลองยิ้มหน่อยยย ถ้าพี่ไม่ยิ้มโลกนี้คงมืดมนแย่เลย"
+            },
+            sad: {
+                emoji: "😜",
+                title: "ฮั่นแน่ คิดถึงแพรวใช่มั้ยล้าา",
+                desc: "แพรวคิดถึงพี่มากกว่าอีกรู้มั้ยคะ ไม่ใช่แค่วันนี้น้า คิดถึงทู๊กกกวันเลยย 🩷"
+            },
+            happy: {
+                emoji: "👏💖",
+                title: "เย้ๆๆๆ เก่งมากค้าบบ",
+                desc: "อยากให้พี่มีความสุขทู๊กกวัน ขอให้โลกใจดีกับพี่ แล้วก็อยากให้รอยยิ้มพี่เป็นของแพรวตลอดไปเลยนะคะ"
+            }
+        };
+
+        function showCare(mood) {
+            const data = careMessages[mood];
+            document.getElementById('care-emoji').innerText = data.emoji;
+            document.getElementById('care-title').innerText = data.title;
+            document.getElementById('care-desc').innerText = data.desc;
+            document.getElementById('careModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('careModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
